@@ -6,7 +6,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
-import android.text.style.URLSpan;
 
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -18,10 +17,10 @@ import java.util.regex.Pattern;
 
 public class HyperDown {
 
-    private static final Pattern sCodePattern = Pattern.compile("(^|[^\\\\])(`+)(.+?)\\2");
+    private static final Pattern sCodePattern = Pattern.compile("(^|[^\\\\])(`+)([^`]+?)\\2");
     private static final Pattern sBoldPattern = Pattern.compile("(\\*{2})(.+?)\\1");
-    private static final Pattern sItalicPattern = Pattern.compile("(\\s+|^)(_)(.+?)\\2(\\s+|$)");
-    private static final Pattern sLinkPattern = Pattern.compile("\\[((?:[^\\]]|\\\\\\]|\\\\\\[)+?)\\]\\(((?:[^\\)]|\\\\\\)|\\\\\\()+?)\\)");;
+    private static final Pattern sItalicPattern = Pattern.compile("(_)(.+?)\\1");
+    private static final Pattern sLinkPattern = Pattern.compile("\\[((?:[^\\]]|\\\\\\]|\\\\\\[)+?)\\]\\(((?:[^\\)]|\\\\\\)|\\\\\\()+?)\\)");
 
     private String mSource;
     private Object[] mCachedSpans;
@@ -71,7 +70,7 @@ public class HyperDown {
             beginCacheSpans(sb, start, end);
 
             sb.delete(start, end);
-            sb.insert(start, resetCacheSpans(italic(parse(result.group(3)))));
+            sb.insert(start, resetCacheSpans(italic(parse(result.group(2)))));
             matcher.reset(sb);
         }
 
