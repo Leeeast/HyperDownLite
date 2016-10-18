@@ -83,7 +83,8 @@ public class HyperDown {
 
             sb.delete(start, end);
             sb.insert(start,
-                    resetCacheSpans(link(parse(result.group(1)), result.group(2))));
+                    resetCacheSpans(link(parse(result.group(1)), cleanUrl(result.group(2))))
+            );
             matcher.reset(sb);
         }
 
@@ -133,4 +134,19 @@ public class HyperDown {
         return sb;
     }
 
+
+    private String cleanUrl(String url) {
+        Pattern safeUrlPattern = Pattern.compile("^\\s*((http|https|ftp|mailto):[x80-xff_a-z0-9-\\./%#@\\?\\+=~\\|,&\\(\\)]+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = safeUrlPattern.matcher(url);
+
+        Pattern safeUrlPattern2 = Pattern.compile("^\\s*([x80-xff_a-z0-9-\\./%#@\\?\\+=~\\|,&]+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher2 = safeUrlPattern2.matcher(url);
+        if (matcher.matches()) {
+            return matcher.group(1);
+        } else if (matcher2.matches()) {
+            return matcher2.group(1);
+        } else {
+            return "#";
+        }
+    }
 }

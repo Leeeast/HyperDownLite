@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 import xyz.geminiwen.hyperdown.HyperDown;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 "**Delectus** hic _ut_ eos sunt laborum `harum` ducimus. Quasi neque adipisci voluptatem consequatur aut. Et eos ut harum. Quis ut ut veritatis rem qui. [这是一个链接](https://google.com.hk)");
         CharSequence text = hyperDown.parse();
 
+        textView.setMovementMethod(new LinkMovementMethod());
         textView.setText(text);
     }
 }
